@@ -32,28 +32,31 @@
 
   <button onclick="increaseGPL()">YES</button>
 
-  <script>
-    const namespace = "raju-gpl-counter";
-    const key = "gpl";
+<script>
+  const namespace = "raju-gpl-counter-2026";
+  const key = "gpl";
 
-    // Get current count
-    fetch(`https://api.countapi.xyz/get/${namespace}/${key}`)
+  // Initialize counter (only runs once globally)
+  fetch(`https://api.countapi.xyz/create?namespace=${namespace}&key=${key}&value=0`)
+    .then(() => {
+      // Get current value
+      return fetch(`https://api.countapi.xyz/get/${namespace}/${key}`);
+    })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("gpl").innerText = "GPL: " + data.value;
+    })
+    .catch(() => {
+      document.getElementById("gpl").innerText = "GPL: error";
+    });
+
+  function increaseGPL() {
+    fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
       .then(res => res.json())
       .then(data => {
-        document.getElementById("gpl").innerText = "GPL: " + data.value;
-      })
-      .catch(() => {
-        document.getElementById("gpl").innerText = "GPL: 0";
-      });
+        document.getElementById("gpl").innerText
 
-    function increaseGPL() {
-      fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById("gpl").innerText = "GPL: " + data.value;
-        });
-    }
-  </script>
 
 </body>
 </html>
+

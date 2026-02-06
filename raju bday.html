@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GPL Counter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 80px;
+      background: #f7f7f7;
+    }
+    h1 {
+      font-size: 26px;
+    }
+    #gpl {
+      font-size: 32px;
+      margin: 20px 0;
+    }
+    button {
+      font-size: 20px;
+      padding: 12px 30px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>click yes to increase the number of GPL for raju</h1>
+
+  <div id="gpl">GPL: loading...</div>
+
+  <button onclick="increaseGPL()">YES</button>
+
+  <script>
+    const namespace = "raju-gpl-counter";
+    const key = "gpl";
+
+    // Get current count
+    fetch(`https://api.countapi.xyz/get/${namespace}/${key}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("gpl").innerText = "GPL: " + data.value;
+      })
+      .catch(() => {
+        document.getElementById("gpl").innerText = "GPL: 0";
+      });
+
+    function increaseGPL() {
+      fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("gpl").innerText = "GPL: " + data.value;
+        });
+    }
+  </script>
+
+</body>
+</html>
